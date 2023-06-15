@@ -17,7 +17,7 @@ This repository contains a Python client for interacting with the Solldex API. T
 You can install the SolldexAPI Python Client via pip:
 
 ```bash
-pip install solldex-api-client==0.1.0
+pip install solldex-api-client
 ```
 
 
