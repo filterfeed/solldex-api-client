@@ -2,6 +2,15 @@ import logging
 import requests
 from tenacity import retry, stop_after_attempt, wait_fixed
 from typing import Dict, Union
+from .solldex_models import (
+    RecepcionarLoteParams,
+    ConsultaLoteParams,
+    ConsultaRpsParams,
+    ConsultaNfseParams,
+    CancelaNfseParams,
+    ConsultaUrlVisualizacaoNfseParams,
+)
+
 
 class SolldexAPI:
     """
@@ -15,15 +24,15 @@ class SolldexAPI:
         Args:
             token: The authorization token for the Solldex API.
         """
-        self.base_url = 'https://api.solldex.com.br/v1'
+        self.base_url = "https://api.solldex.com.br/v1"
         self.headers = {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'Authorization': f'Bearer {token}'
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+            "Authorization": f"Bearer {token}",
         }
 
     @retry(stop=stop_after_attempt(3), wait=wait_fixed(2))
-    def recepcionar_lote(self, data: Dict[str, Union[str, int, Dict]]) -> Dict:
+    def recepcionar_lote(self, data: RecepcionarLoteParams) -> Dict:
         """
         Makes a POST request to the 'recepcionar-lote-rps' endpoint of the Solldex API.
 
@@ -33,17 +42,17 @@ class SolldexAPI:
         Returns:
             The response from the Solldex API.
         """
-        url = f'{self.base_url}/recepcionar-lote-rps'
+        url = f"{self.base_url}/recepcionar-lote-rps"
         try:
             response = requests.post(url, headers=self.headers, json=data)
             response.raise_for_status()
             return response.json()
         except requests.RequestException as e:
-            logging.error(f'Request to {url} failed: {e}')
+            logging.error(f"Request to {url} failed: {e}")
             raise
 
     @retry(stop=stop_after_attempt(3), wait=wait_fixed(2))
-    def consultar_lote(self, data: Dict[str, Union[str, int]]) -> Dict:
+    def consultar_lote(self, data: ConsultaLoteParams) -> Dict:
         """
         Makes a GET request to the 'consulta-lote' endpoint of the Solldex API.
 
@@ -53,17 +62,17 @@ class SolldexAPI:
         Returns:
             The response from the Solldex API.
         """
-        url = f'{self.base_url}/consulta-lote'
+        url = f"{self.base_url}/consulta-lote"
         try:
             response = requests.get(url, headers=self.headers, json=data)
             response.raise_for_status()
             return response.json()
         except requests.RequestException as e:
-            logging.error(f'Request to {url} failed: {e}')
+            logging.error(f"Request to {url} failed: {e}")
             raise
 
     @retry(stop=stop_after_attempt(3), wait=wait_fixed(2))
-    def consultar_rps(self, data: Dict[str, Union[str, int]]) -> Dict:
+    def consultar_rps(self, data: ConsultaRpsParams) -> Dict:
         """
         Makes a GET request to the 'consulta-rps' endpoint of the Solldex API.
 
@@ -73,11 +82,71 @@ class SolldexAPI:
         Returns:
             The response from the Solldex API.
         """
-        url = f'{self.base_url}/consulta-rps'
+        url = f"{self.base_url}/consulta-rps"
         try:
             response = requests.get(url, headers=self.headers, json=data)
             response.raise_for_status()
             return response.json()
         except requests.RequestException as e:
-            logging.error(f'Request to {url} failed: {e}')
+            logging.error(f"Request to {url} failed: {e}")
+            raise
+
+    @retry(stop=stop_after_attempt(3), wait=wait_fixed(2))
+    def consultar_nfse(self, data: ConsultaNfseParams) -> Dict:
+        """
+        Makes a GET request to the 'consulta-nfse' endpoint of the Solldex API.
+
+        Args:
+            data: The request parameters.
+
+        Returns:
+            The response from the Solldex API.
+        """
+        url = f"{self.base_url}/consulta-nfse"
+        try:
+            response = requests.get(url, headers=self.headers, json=data)
+            response.raise_for_status()
+            return response.json()
+        except requests.RequestException as e:
+            logging.error(f"Request to {url} failed: {e}")
+            raise
+
+    @retry(stop=stop_after_attempt(3), wait=wait_fixed(2))
+    def cancela_nfse(self, data: CancelaNfseParams) -> Dict:
+        """
+        Makes a POST request to the 'cancela-nfse' endpoint of the Solldex API.
+
+        Args:
+            data: The request parameters.
+
+        Returns:
+            The response from the Solldex API.
+        """
+        url = f"{self.base_url}/cancela-nfse"
+        try:
+            response = requests.post(url, headers=self.headers, json=data)
+            response.raise_for_status()
+            return response.json()
+        except requests.RequestException as e:
+            logging.error(f"Request to {url} failed: {e}")
+            raise
+
+    @retry(stop=stop_after_attempt(3), wait=wait_fixed(2))
+    def consulta_url_nfse(self, data: ConsultaUrlVisualizacaoNfseParams) -> Dict:
+        """
+        Makes a GET request to the 'consulta-url-visualizacao-nfse' endpoint of the Solldex API.
+
+        Args:
+            data: The request parameters.
+
+        Returns:
+            The response from the Solldex API.
+        """
+        url = f"{self.base_url}/consulta-url-visualizacao-nfse"
+        try:
+            response = requests.get(url, headers=self.headers, params=data)
+            response.raise_for_status()
+            return response.json()
+        except requests.RequestException as e:
+            logging.error(f"Request to {url} failed: {e}")
             raise
