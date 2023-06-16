@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='solldex-api-client',
-    version='0.1.2',
+    version='0.1.7',
     packages=find_packages(),
     url='https://github.com/filterfeed/solldex-api-client',
     author='Victor Figueredo',  # replace with your name

@@ -1,7 +1,9 @@
+import json
 import logging
 import requests
 from tenacity import retry, stop_after_attempt, wait_fixed
 from typing import Dict, Union
+from dataclasses import asdict
 from .solldex_models import (
     RecepcionarLoteParams,
     ConsultaLoteParams,
@@ -43,8 +45,9 @@ class SolldexAPI:
             The response from the Solldex API.
         """
         url = f"{self.base_url}/recepcionar-lote-rps"
+        params = asdict(data)
         try:
-            response = requests.post(url, headers=self.headers, json=data)
+            response = requests.post(url, headers=self.headers, json=params)
             response.raise_for_status()
             return response.json()
         except requests.RequestException as e:
@@ -63,8 +66,9 @@ class SolldexAPI:
             The response from the Solldex API.
         """
         url = f"{self.base_url}/consulta-lote"
+        params = asdict(data)
         try:
-            response = requests.get(url, headers=self.headers, json=data)
+            response = requests.get(url, headers=self.headers, json=params)
             response.raise_for_status()
             return response.json()
         except requests.RequestException as e:
@@ -83,8 +87,9 @@ class SolldexAPI:
             The response from the Solldex API.
         """
         url = f"{self.base_url}/consulta-rps"
+        params = asdict(data)
         try:
-            response = requests.get(url, headers=self.headers, json=data)
+            response = requests.get(url, headers=self.headers, json=params)
             response.raise_for_status()
             return response.json()
         except requests.RequestException as e:
@@ -103,8 +108,9 @@ class SolldexAPI:
             The response from the Solldex API.
         """
         url = f"{self.base_url}/consulta-nfse"
+        params = asdict(data)
         try:
-            response = requests.get(url, headers=self.headers, json=data)
+            response = requests.get(url, headers=self.headers, json=params)
             response.raise_for_status()
             return response.json()
         except requests.RequestException as e:
@@ -123,8 +129,9 @@ class SolldexAPI:
             The response from the Solldex API.
         """
         url = f"{self.base_url}/cancela-nfse"
+        params = asdict(data)
         try:
-            response = requests.post(url, headers=self.headers, json=data)
+            response = requests.post(url, headers=self.headers, json=params)
             response.raise_for_status()
             return response.json()
         except requests.RequestException as e:
@@ -143,8 +150,9 @@ class SolldexAPI:
             The response from the Solldex API.
         """
         url = f"{self.base_url}/consulta-url-visualizacao-nfse"
+        params = asdict(data)
         try:
-            response = requests.get(url, headers=self.headers, params=data)
+            response = requests.get(url, headers=self.headers, json=params)
             response.raise_for_status()
             return response.json()
         except requests.RequestException as e:
